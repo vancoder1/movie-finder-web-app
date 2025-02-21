@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    const apiKey = '34ed7af4'; // Replace with your OMDB API key
+$(document).ready(function () {
+    const apiKey = '34ed7af4';
     let favorites = JSON.parse(localStorage.getItem('movieFavorites')) || [];
     const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
     const movieDetailsModal = new bootstrap.Modal(document.getElementById('movieDetailsModal'));
@@ -9,8 +9,8 @@ $(document).ready(function() {
         $('html').attr('data-bs-theme', isDark ? 'dark' : 'light');
         localStorage.setItem('darkMode', isDark);
         const $themeBtn = $('#themeToggle');
-        $themeBtn.html(isDark ? 
-            '<i class="fas fa-sun"></i> Light Mode' : 
+        $themeBtn.html(isDark ?
+            '<i class="fas fa-sun"></i> Light Mode' :
             '<i class="fas fa-moon"></i> Dark Mode'
         );
     }
@@ -19,7 +19,7 @@ $(document).ready(function() {
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     setTheme(isDarkMode);
 
-    $('#themeToggle').click(function() {
+    $('#themeToggle').click(function () {
         const isDark = $('html').attr('data-bs-theme') === 'light';
         setTheme(isDark);
     });
@@ -40,7 +40,7 @@ $(document).ready(function() {
     }
 
     $('.search-btn').click(handleSearch);
-    $('.search-box').keypress(function(e) {
+    $('.search-box').keypress(function (e) {
         if (e.which === 13) {
             handleSearch();
         }
@@ -53,7 +53,7 @@ $(document).ready(function() {
         $.ajax({
             url: `https://www.omdbapi.com/?s=${searchTerm}&apikey=${apiKey}`,
             method: 'GET',
-            success: function(response) {
+            success: function (response) {
                 $('.loading').addClass('d-none');
                 if (response.Response === "True") {
                     displayMovies(response.Search);
@@ -61,7 +61,7 @@ $(document).ready(function() {
                     showError(response.Error || 'No movies found');
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 $('.loading').addClass('d-none');
                 showError('Error fetching movies. Please try again later.');
             }
@@ -89,7 +89,7 @@ $(document).ready(function() {
                 url: `https://www.omdbapi.com/?i=${imdbID}&plot=full&apikey=${apiKey}`,
                 method: 'GET'
             });
-            
+
             if (response.Response === "True") {
                 const modalContent = `
                     <div class="row">
@@ -148,13 +148,13 @@ $(document).ready(function() {
     }
 
     // Movie details handler
-    $(document).on('click', '.movie-details-btn', function() {
+    $(document).on('click', '.movie-details-btn', function () {
         const movieId = $(this).data('id');
         fetchMovieDetails(movieId);
     });
 
     // Favorite functionality
-    $(document).on('click', '.favorite-btn', function() {
+    $(document).on('click', '.favorite-btn', function () {
         const $this = $(this);
         const movieCard = $this.closest('.card');
         const movieId = $this.data('id');

@@ -1,0 +1,54 @@
+.movie-card {
+    transition: transform 0.3s;
+    height: 100%;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-poster {
+    height: 300px;
+    object-fit: cover;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.star-rating {
+    color: #ffc107;
+    cursor: pointer;
+}
+
+.star-rating .fa-star {
+    transition: color 0.2s;
+}
+
+#errorToast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.theme-switch {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.movie-details-btn {
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--bs-primary);
+}
+
+.movie-details-btn:hover {
+    color: var(--bs-primary-darker);
+}

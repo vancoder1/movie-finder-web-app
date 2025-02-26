@@ -10,8 +10,8 @@ $(document).ready(function () {
         localStorage.setItem('darkMode', isDark);
         const $themeBtn = $('#themeToggle');
         $themeBtn.html(isDark ?
-            '<i class="fas fa-sun"></i> Light Mode' :
-            '<i class="fas fa-moon"></i> Dark Mode'
+            '<i class="fas fa-sun"></i>' :
+            '<i class="fas fa-moon"></i>'
         );
     }
 

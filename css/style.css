@@ -1,54 +1,60 @@
+/* Minimal Custom Styles - Rely mostly on Bootstrap and jQuery UI Theme */
+
+/* Ensure cards in a row take full height (Bootstrap d-flex on parent row helps) */
 .movie-card {
-    transition: transform 0.3s;
     height: 100%;
+    opacity: 0; /* Start hidden for fade-in */
+    transition: opacity 0.6s ease-out, box-shadow 0.2s ease-in-out; /* Keep fade and shadow transition */
+    /* Rely on Bootstrap .card for bg, border, padding etc. */
 }
-
 .movie-card:hover {
-    transform: translateY(-5px);
+     box-shadow: var(--bs-box-shadow); /* Use Bootstrap's shadow variable */
 }
-
+/* Consistent Poster size */
 .movie-poster {
-    height: 300px;
+    height: 280px;
     object-fit: cover;
+    background-color: var(--bs-secondary-bg); /* Use Bootstrap variable */
 }
-
+/* Ensure card body grows and titles/text look reasonable */
+.card-body {
+    flex-grow: 1;
+    padding: 0.8rem; /* Slightly smaller padding */
+}
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+.card-text {
+    font-size: 0.85rem;
+}
+/* Basic favorite button styling - rely on text color utilities in JS */
 .favorite-btn {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
     padding: 5px;
+    line-height: 1;
+}
+/* Fade-in Animation Class */
+.fade-in {
+    opacity: 1;
 }
 
-.star-rating {
-    color: #ffc107;
-    cursor: pointer;
+/* Validation feedback styling relies on Bootstrap's .is-invalid and .invalid-feedback */
+/* Ensure jQuery UI elements play nicely if needed - often base theme is okay */
+/* Example: Ensure active accordion header has contrast */
+#categories-accordion .ui-accordion-header.ui-state-active {
+     background-color: var(--bs-primary);
+     color: var(--bs-light);
+     border-color: var(--bs-primary);
 }
-
-.star-rating .fa-star {
-    transition: color 0.2s;
+/* Example: Ensure active tab looks distinct */
+#info-tabs .ui-tabs-active {
+    background-color: var(--bs-body-bg) !important;
+    border-bottom: 1px solid var(--bs-body-bg) !important;
 }
-
-#errorToast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1050;
-}
-
-.theme-switch {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-.movie-details-btn {
-    cursor: pointer;
-    text-decoration: underline;
-    color: var(--bs-primary);
-}
-
-.movie-details-btn:hover {
-    color: var(--bs-primary-darker);
+#info-tabs .ui-tabs-active a {
+    color: var(--bs-primary) !important;
+    font-weight: bold;
 }

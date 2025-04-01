@@ -58,3 +58,33 @@
     color: var(--bs-primary) !important;
     font-weight: bold;
 }
+
+/* --- Section Styling --- */
+.content-section {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--bs-border-color-translucent);
+    background-color: var(--bs-tertiary-bg);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Section Headers */
+.content-section h2 {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bs-primary);
+    display: inline-block;
+    color: var(--bs-emphasis-color);
+}
+
+#favorites-section {
+    background-color: #fff3cd;
+}
+#movie-categories {
+     background-color: #e2f3ff;
+}
+#info-tabs {
+     background-color: #f8d7da;
+}
+

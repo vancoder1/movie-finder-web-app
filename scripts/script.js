@@ -25,7 +25,7 @@ $(function () { // Use jQuery's shorthand for $(document).ready()
     function showError(message) {
         console.error("App Error:", message);
         if (errorToast) {
-            $errorToastBody.text(message).parent().parent().toast('show'); // Chain to show toast
+            $errorToastBody.text(message).parent().parent().toast('show');
         } else {
             alert("Error: " + message);
         }
@@ -81,9 +81,24 @@ $(function () { // Use jQuery's shorthand for $(document).ready()
         checkFadeIn();
     }
 
+    // Reorder favorites array based on DOM order after sorting
+    function updateFavoritesOrder() {
+        const newOrderIds = $favoritesGrid.find('.movie-card').map(function() {
+            return $(this).data('imdb-id');
+        }).get();
+
+        // Reorder the favorites array based on the newOrderIds
+        favorites.sort((a, b) => {
+            return newOrderIds.indexOf(a.imdbID) - newOrderIds.indexOf(b.imdbID);
+        });
+
+        localStorage.setItem('movieFavorites', JSON.stringify(favorites));
+    }
+
+
     function checkFadeIn() {
         const windowBottom = $(window).scrollTop() + $(window).innerHeight();
-        $(".movie-card:not(.fade-in)").filter(function() { // Use filter for efficiency
+        $(".movie-card:not(.fade-in)").filter(function() {
             return $(this).offset().top < windowBottom - 50;
         }).addClass("fade-in");
     }
@@ -93,7 +108,7 @@ $(function () { // Use jQuery's shorthand for $(document).ready()
         $loadingIndicator.removeClass('d-none');
         $moviesGrid.empty();
 
-        $.getJSON(`${omdbUrl}?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`) // Use getJSON shorthand
+        $.getJSON(`${omdbUrl}?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`)
             .done(response => {
                 if (response.Response === "True" && response.Search) {
                     renderMovies($moviesGrid, response.Search);
@@ -147,12 +162,10 @@ $(function () { // Use jQuery's shorthand for $(document).ready()
             favorites.splice(movieIndex, 1);
             isNowFavorite = false;
         } else {
-            // Find the button that was clicked, then its parent card
             const $button = $(`.favorite-btn[data-id="${movieId}"]`);
-            const $card = $button.closest('.movie-card'); // Find the card associated with the clicked button
+            const $card = $button.closest('.movie-card');
 
-            if ($card.length && $card.data('imdb-id') === movieId) { // Ensure we found the correct card
-                // Retrieve data directly from the card's data attributes
+            if ($card.length && $card.data('imdb-id') === movieId) {
                 const movieData = {
                     imdbID: movieId,
                     Title: decodeURIComponent($card.data('title') || 'Unknown Title'),
@@ -229,10 +242,23 @@ $(function () { // Use jQuery's shorthand for $(document).ready()
     });
     $(window).on('scroll', checkFadeIn);
 
+    // Initialize Sortable Favorites
+    $favoritesGrid.sortable({
+        items: '> .col-sm-6',
+        handle: '.card',
+        placeholder: 'col-sm-6 col-md-4 col-lg-3 movie-card-placeholder',
+        forcePlaceholderSize: true,
+        cursor: 'move',
+        opacity: 0.7,
+        update: function(event, ui) {
+            updateFavoritesOrder();
+        }
+    }).disableSelection();
+
     // --- Initial Load ---
     renderMovies($favoritesGrid, favorites, true);
     checkFadeIn();
-    $('[title]').tooltip({ 
+    $('[title]').tooltip({
         track: true, 
         show: { 
             delay: 300 

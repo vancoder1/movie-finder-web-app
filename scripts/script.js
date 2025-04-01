@@ -1,4 +1,4 @@
-$(function () { // Use jQuery's shorthand for $(document).ready()
+$(function () {
     // --- Config & Selectors ---
     const apiKey = '34ed7af4';
     const omdbUrl = 'https://www.omdbapi.com/';
@@ -131,7 +131,7 @@ $(function () { // Use jQuery's shorthand for $(document).ready()
         if (movieDetailsModal) movieDetailsModal.show();
 
         try {
-            const response = await $.getJSON(`${omdbUrl}?i=${imdbID}&plot=full&apikey=${apiKey}`); // Use getJSON shorthand
+            const response = await $.getJSON(`${omdbUrl}?i=${imdbID}&plot=full&apikey=${apiKey}`);
             if (response.Response === "True") {
                 const { Title, Year, imdbRating, Genre, Plot, Poster } = response;
                 const posterSrc = Poster !== 'N/A' ? Poster : placeholderImg;

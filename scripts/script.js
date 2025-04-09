@@ -13,6 +13,7 @@ $(function () {
     const $errorToastBody = $('#errorToastBody');
     const $contactForm = $('#contact-form');
     const $formFeedback = $('#formFeedback');
+    const $themeToggleBtn = $('#theme-toggle');
 
     // --- Instances ---
     const errorToast = $errorToastEl.length ? new bootstrap.Toast($errorToastEl[0]) : null;
@@ -77,7 +78,12 @@ $(function () {
             const isFav = isFavoriteOverride ?? favorites.some(fav => fav.imdbID === movie.imdbID);
             return createMovieCardHtml(movie, isFav);
         }).join('');
-        $grid.html(movieHtml).find('[title]').tooltip({ track: true, show: { delay: 300 } });
+        $grid.html(movieHtml).find('[title]').tooltip({ 
+            track: true, 
+            show: { 
+                delay: 300 
+            } 
+        });
         checkFadeIn();
     }
 
@@ -255,13 +261,34 @@ $(function () {
         }
     }).disableSelection();
 
+    // --- Theme Toggle Logic ---
+    function applyTheme(theme) {
+        $('html').attr('data-bs-theme', theme);
+        if (theme === 'dark') {
+            $themeToggleBtn.find('i').removeClass('fa-moon').addClass('fa-sun');
+            $themeToggleBtn.attr('title', 'Switch to Light Mode');
+        } else {
+            $themeToggleBtn.find('i').removeClass('fa-sun').addClass('fa-moon');
+            $themeToggleBtn.attr('title', 'Switch to Dark Mode');
+        }
+        localStorage.setItem('movieFinderTheme', theme);
+        // Re-initialize tooltip for the theme button after changing its title
+        $themeToggleBtn.tooltip('dispose').tooltip({ track: true, show: { delay: 300 } });
+    }
+
+    function toggleTheme() {
+        const currentTheme = $('html').attr('data-bs-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    }
+
     // --- Initial Load ---
+    const savedTheme = localStorage.getItem('movieFinderTheme') || 'light'; // Default to light
+    applyTheme(savedTheme); // Apply theme on load
+
     renderMovies($favoritesGrid, favorites, true);
     checkFadeIn();
-    $('[title]').tooltip({
-        track: true, 
-        show: { 
-            delay: 300 
-        } 
-    });
+
+    // Bind theme toggle click event
+    $themeToggleBtn.on('click', toggleTheme);
 });
